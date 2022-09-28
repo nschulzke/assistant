@@ -1,6 +1,7 @@
 import os
 
 import whisper
+from playsound import playsound
 from pynput import keyboard
 import time
 import pyaudio
@@ -75,12 +76,15 @@ def recorder():
                         input=True,
                         frames_per_buffer=CHUNK,
                         stream_callback=callback)
+        playsound("sounds/start_recording.mp3")
         started = True
 
     elif not listener.key_pressed and started:
         started = False
         stream.stop_stream()
         stream.close()
+
+        playsound("sounds/stop_recording.mp3")
 
         if os.path.exists(WAVE_OUTPUT_FILENAME):
             os.remove(WAVE_OUTPUT_FILENAME)
