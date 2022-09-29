@@ -58,7 +58,7 @@ started = False
 stream = None
 
 
-def recorder():
+def transcriber():
     global started, p, stream, frames
     print("Press and hold the 'PAUSE' key to begin recording")
     print("Release the 'PAUSE' key to end recording")
