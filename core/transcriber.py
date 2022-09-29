@@ -1,4 +1,5 @@
 import os
+import re
 
 import whisper
 from playsound import playsound
@@ -18,7 +19,7 @@ WAVE_OUTPUT_FILENAME = "tmp/output.wav"
 TRANSCRIBE_KEY = keyboard.Key.pause
 
 
-def transcriber():
+def transcriber(substitions: dict):
     model = whisper.load_model("medium")
     p = pyaudio.PyAudio()
     frames = []
@@ -56,7 +57,11 @@ def transcriber():
 
             file = write_frames_to_file(frames, p)
             result = model.transcribe(file)
-            yield result["text"]
+            text = result["text"].strip()
+            for target, replacement in substitions.items():
+                regex = re.compile(re.escape(target), re.IGNORECASE)
+                text = regex.sub(replacement, text)
+            yield text
 
 
 def write_frames_to_file(frames, p):

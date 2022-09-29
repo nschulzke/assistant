@@ -1,15 +1,25 @@
 import argparse
+import json
+import os
+
 import pyttsx3
 
 from actions import dispatcher
 from core import load_classifier, train_classifier, transcriber
 
 
+def load_substitutions() -> dict:
+    if os.path.exists("substitutions.json"):
+        with open("substitutions.json") as f:
+            return json.load(f)
+    return {}
+
+
 def run_assistant():
     tts = pyttsx3.init()
     classifier = load_classifier()
 
-    for utterance in transcriber():
+    for utterance in transcriber(load_substitutions()):
         print()
         print("> " + utterance)
         tokens = classifier(utterance)
