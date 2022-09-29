@@ -2,7 +2,7 @@ from lark import Lark, Tree
 from datasets import Dataset
 
 # Grammar to tokenize input and extract token tags as if they were markdown links
-l = Lark('''
+grammar = Lark('''
     start: (link | text)*
     link: "[" tagged_tokens "]" "(" tag ")"
     text: TOKEN*
@@ -35,7 +35,7 @@ def parse_prompts(list):
     data = []
     unique_tags = []
     for prompt in list:
-        tree = l.parse(prompt)
+        tree = grammar.parse(prompt)
         tags = []
         tokens = []
         for token, tag in traverse(tree, None):
