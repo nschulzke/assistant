@@ -14,13 +14,6 @@ RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "tmp/output.wav"
 
-frames = []
-
-
-def callback(in_data, frame_count, time_info, status):
-    frames.append(in_data)
-    return in_data, pyaudio.paContinue
-
 
 class MyListener(keyboard.Listener):
     def __init__(self):
@@ -41,9 +34,9 @@ listener.start()
 
 
 def transcriber():
-    global frames
     model = whisper.load_model("medium")
     p = pyaudio.PyAudio()
+    frames = []
     started = False
     stream = None
 
@@ -51,6 +44,10 @@ def transcriber():
         os.makedirs("tmp")
     except FileExistsError:
         pass
+
+    def callback(in_data, frame_count, time_info, status):
+        frames.append(in_data)
+        return in_data, pyaudio.paContinue
 
     print("Press and hold the 'PAUSE' key to begin recording")
     print("Release the 'PAUSE' key to end recording")
