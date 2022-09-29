@@ -1,4 +1,4 @@
-from lark import Lark, Tree, Token
+from lark import Lark, Tree
 from datasets import Dataset
 
 # Grammar to tokenize input and extract token tags as if they were markdown links
