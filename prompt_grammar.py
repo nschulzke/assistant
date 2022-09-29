@@ -30,11 +30,11 @@ def traverse(tree, parent):
         yield tree.value, parent
 
 
-def parse_prompts(list):
+def parse_prompts(prompts):
     """Traverse the tree and return the list of unique tags and the sorted list"""
     data = []
     unique_tags = []
-    for prompt in list:
+    for prompt in prompts:
         tree = grammar.parse(prompt)
         tags = []
         tokens = []
