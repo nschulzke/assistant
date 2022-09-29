@@ -7,8 +7,6 @@ import time
 import pyaudio
 import wave
 
-print(os.getcwd())
-
 CHUNK = 8192
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
@@ -16,14 +14,8 @@ RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "tmp/output.wav"
 
-p = pyaudio.PyAudio()
 frames = []
 model = whisper.load_model("medium")
-
-try:
-    os.makedirs("tmp")
-except FileExistsError:
-    pass
 
 
 def transcribe(file):
@@ -54,12 +46,19 @@ class MyListener(keyboard.Listener):
 
 listener = MyListener()
 listener.start()
-started = False
-stream = None
 
 
 def transcriber():
-    global started, p, stream, frames
+    global frames
+    p = pyaudio.PyAudio()
+    started = False
+    stream = None
+
+    try:
+        os.makedirs("tmp")
+    except FileExistsError:
+        pass
+
     print("Press and hold the 'PAUSE' key to begin recording")
     print("Release the 'PAUSE' key to end recording")
     while True:
