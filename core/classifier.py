@@ -53,7 +53,7 @@ def train_classifier(prompts: List[str]):
     )
 
     training_args = TrainingArguments(
-        output_dir="classifier_trainer",
+        output_dir="tmp/classifier_trainer",
         per_gpu_eval_batch_size=1,
         per_gpu_train_batch_size=1,
     )
