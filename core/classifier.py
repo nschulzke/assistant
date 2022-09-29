@@ -1,6 +1,7 @@
+from typing import List
+
 from transformers import AutoTokenizer
 
-from actions import dispatcher
 from core.prompt_grammar import parse_prompts
 from datasets import Dataset
 from transformers import TokenClassificationPipeline
@@ -16,7 +17,7 @@ def load_tokenizer():
     return AutoTokenizer.from_pretrained(BASE_MODEL, add_prefix_space=True)
 
 
-def train_classifier():
+def train_classifier(prompts: List[str]):
     tokenizer = load_tokenizer()
 
     def tokenize_and_align_labels(examples):
@@ -40,7 +41,7 @@ def train_classifier():
         tokenized_inputs["labels"] = labels
         return tokenized_inputs
 
-    prompts = parse_prompts(dispatcher.prompts())
+    prompts = parse_prompts(prompts)
 
     dataset = Dataset.from_list(prompts['data'])
 

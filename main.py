@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     if args.train:
         print("Training classifier...")
-        train_classifier()
+        train_classifier(dispatcher.prompts())
     else:
         print("Starting assistant...")
         run_assistant()
