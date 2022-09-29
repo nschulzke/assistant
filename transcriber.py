@@ -66,13 +66,13 @@ def transcriber():
         if listener.key_pressed and not started:
             # Start the recording
             frames = []
+            playsound("sounds/start_recording.mp3")
             stream = p.open(format=FORMAT,
                             channels=CHANNELS,
                             rate=RATE,
                             input=True,
                             frames_per_buffer=CHUNK,
                             stream_callback=callback)
-            playsound("sounds/start_recording.mp3")
             started = True
 
         elif not listener.key_pressed and started:
