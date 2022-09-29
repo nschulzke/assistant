@@ -48,21 +48,3 @@ def parse_prompts(list):
         'data': [{'tokens': tokens, 'tags': tags} for tokens, tags in data],
         'unique_tags': {key: value for key, value in enumerate(unique_tags)}
     }
-
-
-if __name__ == '__main__':
-    # Parse a bunch of examples
-    examples = [
-        "What is the weather like in [New York](weather.location)?",
-        "What is the weather in [San Francisco](weather.location)?",
-        "What's the temperature right now in [American Fork](weather.location)?",
-        "What will the temperature be [tomorrow](weather.time) in [San Jose](weather.location)?",
-        "What's the weather like in [New York](weather.location) [tomorrow](weather.time)?",
-        "What will the weather be like in [Boston](weather.location) [next week](weather.time)?",
-    ]
-    all_parsed = parse_prompts(examples)
-    print(all_parsed['unique_tags'])
-    for example, parsed in zip(examples, all_parsed['data']):
-        print(example)
-        print(parsed)
-        print()
