@@ -1,7 +1,8 @@
 import pyttsx3
 
-from classifier import load_classifier
-from transcriber import transcriber
+from assistant.classifier import load_classifier
+
+from assistant.transcriber import transcriber
 
 if __name__ == '__main__':
     tts = pyttsx3.init()

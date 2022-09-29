@@ -1,12 +1,11 @@
 from transformers import AutoTokenizer
-from prompt_grammar import parse_prompts
+from assistant.prompt_grammar import parse_prompts
 from datasets import Dataset
 from transformers import TokenClassificationPipeline
 import torch
 from transformers import TrainingArguments, Trainer
 from transformers import AutoModelForTokenClassification
 import os
-
 
 BASE_MODEL = "bert-base-uncased"
 
