@@ -15,14 +15,6 @@ RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "tmp/output.wav"
 
 frames = []
-model = whisper.load_model("medium")
-
-
-def transcribe(file):
-    file = os.path.join(os.getcwd(), file)
-    result = model.transcribe(file)
-
-    return result["text"]
 
 
 def callback(in_data, frame_count, time_info, status):
@@ -50,6 +42,7 @@ listener.start()
 
 def transcriber():
     global frames
+    model = whisper.load_model("medium")
     p = pyaudio.PyAudio()
     started = False
     stream = None
@@ -85,12 +78,12 @@ def transcriber():
             if os.path.exists(WAVE_OUTPUT_FILENAME):
                 os.remove(WAVE_OUTPUT_FILENAME)
 
-            # Using with will close the file automatically
             with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
                 wf.setnchannels(CHANNELS)
                 wf.setsampwidth(p.get_sample_size(FORMAT))
                 wf.setframerate(RATE)
                 wf.writeframes(b''.join(frames))
 
-            # No issues with playsound locking the file
-            yield transcribe(os.path.join(os.path.dirname(__file__), WAVE_OUTPUT_FILENAME))
+            file = os.path.join(os.getcwd(), WAVE_OUTPUT_FILENAME)
+            result = model.transcribe(file)
+            yield result["text"]
