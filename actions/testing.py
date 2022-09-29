@@ -1,6 +1,6 @@
 from typing import List, Tuple
 
-from core.action import Action
+from core import Action
 
 
 class Weather(Action):

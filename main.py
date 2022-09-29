@@ -2,8 +2,7 @@ import argparse
 import pyttsx3
 
 from actions import dispatcher
-from core.classifier import load_classifier, train_classifier
-from core.transcriber import transcriber
+from core import load_classifier, train_classifier, transcriber
 
 
 def run_assistant():

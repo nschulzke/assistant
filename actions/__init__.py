@@ -1,5 +1,5 @@
 from actions.testing import Weather, Timer
-from core.dispatcher import Dispatcher
+from core import Dispatcher
 
 dispatcher = Dispatcher([
     Weather(),
