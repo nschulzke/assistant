@@ -7,31 +7,14 @@ import time
 import pyaudio
 import wave
 
+from key_state_listener import KeyStateListener
+
 CHUNK = 8192
 FORMAT = pyaudio.paInt16
 CHANNELS = 2
 RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "tmp/output.wav"
-
-
-class KeyStateListener(keyboard.Listener):
-    def __init__(self, target_key):
-        super(KeyStateListener, self).__init__(self.on_press, self.on_release)
-        self.key_pressed = None
-        self.target_key = target_key
-
-    def on_press(self, key):
-        if key == self.target_key:
-            self.key_pressed = True
-
-    def on_release(self, key):
-        if key == self.target_key:
-            self.key_pressed = False
-
-
-listener = KeyStateListener(keyboard.Key.pause)
-listener.start()
 
 
 def transcriber():
@@ -50,6 +33,8 @@ def transcriber():
         frames.append(in_data)
         return in_data, pyaudio.paContinue
 
+    listener = KeyStateListener(keyboard.Key.pause)
+    listener.start()
     print("Press and hold the 'PAUSE' key to begin recording")
     print("Release the 'PAUSE' key to end recording")
     while True:
