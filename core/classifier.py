@@ -86,7 +86,3 @@ def load_classifier():
         device=torch.cuda.current_device(),
     )
     return classifier
-
-
-if __name__ == '__main__':
-    train_classifier()

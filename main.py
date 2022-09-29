@@ -1,10 +1,12 @@
+import argparse
 import pyttsx3
 
 from actions import dispatcher
-from core.classifier import load_classifier
+from core.classifier import load_classifier, train_classifier
 from core.transcriber import transcriber
 
-if __name__ == '__main__':
+
+def run_assistant():
     tts = pyttsx3.init()
     classifier = load_classifier()
 
@@ -16,3 +18,16 @@ if __name__ == '__main__':
         print(response)
         tts.say(response)
         tts.runAndWait()
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="An AI voice assistant.")
+    parser.add_argument("--train", action="store_true", help="Train the classifier.")
+    args = parser.parse_args()
+
+    if args.train:
+        print("Training classifier...")
+        train_classifier()
+    else:
+        print("Starting assistant...")
+        run_assistant()
