@@ -1,4 +1,6 @@
 from transformers import AutoTokenizer
+
+from actions import dispatcher
 from core.prompt_grammar import parse_prompts
 from datasets import Dataset
 from transformers import TokenClassificationPipeline
@@ -38,11 +40,7 @@ def train_classifier():
         tokenized_inputs["labels"] = labels
         return tokenized_inputs
 
-    with open("prompts.txt") as file:
-        lines = file.readlines()
-        lines = [line.rstrip() for line in lines]
-
-    prompts = parse_prompts(lines)
+    prompts = parse_prompts(dispatcher.prompts())
 
     dataset = Dataset.from_list(prompts['data'])
 

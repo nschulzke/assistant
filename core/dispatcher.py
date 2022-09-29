@@ -1,19 +1,23 @@
+from typing import List
+
+from core.action import Action
+
+
 class Dispatcher:
-    def __init__(self):
-        self.dispatch_functions = []
+    def __init__(self, actions: List[Action]):
+        self.actions = actions
 
-    def register(self, *args):
-        for function in args:
-            self.dispatch_functions.append(function)
-
-    def dispatch(self, tokens):
+    def dispatch(self, tokens: List[dict]) -> str:
         """
         Dispatches the tokens to the registered functions, stopping after one function handles
         the request.
         """
-        for function in self.dispatch_functions:
-            match function(tokens):
-                case ["respond", response]:
+        for action in self.actions:
+            match action.handle(tokens):
+                case ("respond", response):
                     return response
 
         return "I don't know how to answer that."
+
+    def prompts(self):
+        return [prompt for action in self.actions for prompt in action.prompts()]
