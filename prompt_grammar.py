@@ -1,7 +1,6 @@
 from lark import Lark, Tree
-from datasets import Dataset
 
-# Grammar to tokenize input and extract token tags as if they were markdown links
+# Grammar to tokenize input and extract token tags as if they were Markdown links
 grammar = Lark('''
     start: (link | text)*
     link: "[" tagged_tokens "]" "(" tag ")"
@@ -18,6 +17,8 @@ grammar = Lark('''
 def traverse(tree, parent):
     """In-order traversal of the lark parse tree"""
     if isinstance(tree, Tree):
+        # noinspection PyUnresolvedReferences
+        # For some reason `data` is supposed to be `str` but it's actually `Token`
         if tree.data.value == 'text':
             for child in tree.children:
                 yield from traverse(child, '0')
