@@ -30,7 +30,7 @@ def transcriber():
     except FileExistsError:
         pass
 
-    def callback(in_data, frame_count, time_info, status):
+    def callback(in_data, _frame_count, _time_info, _status):
         frames.append(in_data)
         return in_data, pyaudio.paContinue
 
@@ -74,8 +74,8 @@ def write_frames_to_file(frames, p):
 
 def open_stream(p, callback):
     return p.open(format=FORMAT,
-           channels=CHANNELS,
-           rate=RATE,
-           input=True,
-           frames_per_buffer=CHUNK,
-           stream_callback=callback)
+                  channels=CHANNELS,
+                  rate=RATE,
+                  input=True,
+                  frames_per_buffer=CHUNK,
+                  stream_callback=callback)
