@@ -9,11 +9,11 @@ def run_assistant():
     tts = pyttsx3.init()
     classifier = load_classifier()
 
-    for output in transcriber():
+    for utterance in transcriber():
         print()
-        print("> " + output)
-        tokens = classifier(output)
-        response = dispatcher.dispatch(tokens)
+        print("> " + utterance)
+        tokens = classifier(utterance)
+        response = dispatcher.dispatch(utterance, tokens)
         print(response)
         tts.say(response)
         tts.runAndWait()

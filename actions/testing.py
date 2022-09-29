@@ -1,13 +1,14 @@
 from typing import List, Tuple
 
 from core import Action
+from core.action import Result
 
 
 class Weather(Action):
-    def handle(self, tokens: List[dict]) -> Tuple[str, str]:
+    def handle(self, _utterance: str, tokens: List[dict]) -> Tuple[Result, str]:
         matches = [token for token in tokens if token['entity'].startswith('weather.')]
         if len(matches) > 0:
-            return "respond", "I can tell you about the weather."
+            return Result.RESPOND, "I can tell you about the weather."
 
     def prompts(self) -> List[str]:
         return [
@@ -21,10 +22,10 @@ class Weather(Action):
 
 
 class Timer(Action):
-    def handle(self, tokens: List[dict]) -> Tuple[str, str]:
+    def handle(self, _utterance: str, tokens: List[dict]) -> Tuple[Result, str]:
         matches = [token for token in tokens if token['entity'].startswith('timer.')]
         if len(matches) > 0:
-            return "respond", "I can set timers for you."
+            return Result.RESPOND, "I can set timers for you."
 
     def prompts(self) -> List[str]:
         return [
