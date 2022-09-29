@@ -10,10 +10,10 @@ def run_assistant():
     classifier = load_classifier()
 
     for output in transcriber():
+        print()
         print("> " + output)
         tokens = classifier(output)
         response = dispatcher.dispatch(tokens)
-        print()
         print(response)
         tts.say(response)
         tts.runAndWait()
