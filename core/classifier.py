@@ -1,5 +1,5 @@
 from transformers import AutoTokenizer
-from assistant.prompt_grammar import parse_prompts
+from core.prompt_grammar import parse_prompts
 from datasets import Dataset
 from transformers import TokenClassificationPipeline
 import torch

@@ -7,7 +7,7 @@ import time
 import pyaudio
 import wave
 
-from assistant.key_state_listener import KeyStateListener
+from core.key_state_listener import KeyStateListener
 
 CHUNK = 8192
 FORMAT = pyaudio.paInt16
