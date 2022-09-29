@@ -44,12 +44,7 @@ def transcriber():
             # Start the recording
             frames = []
             playsound("sounds/start_recording.mp3")
-            stream = p.open(format=FORMAT,
-                            channels=CHANNELS,
-                            rate=RATE,
-                            input=True,
-                            frames_per_buffer=CHUNK,
-                            stream_callback=callback)
+            stream = open_stream(p, callback)
             started = True
 
         elif not listener.key_pressed and started:
@@ -59,15 +54,28 @@ def transcriber():
 
             playsound("sounds/stop_recording.mp3")
 
-            if os.path.exists(WAVE_OUTPUT_FILENAME):
-                os.remove(WAVE_OUTPUT_FILENAME)
-
-            with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
-                wf.setnchannels(CHANNELS)
-                wf.setsampwidth(p.get_sample_size(FORMAT))
-                wf.setframerate(RATE)
-                wf.writeframes(b''.join(frames))
-
-            file = os.path.join(os.getcwd(), WAVE_OUTPUT_FILENAME)
+            file = write_frames_to_file(frames, p)
             result = model.transcribe(file)
             yield result["text"]
+
+
+def write_frames_to_file(frames, p):
+    if os.path.exists(WAVE_OUTPUT_FILENAME):
+        os.remove(WAVE_OUTPUT_FILENAME)
+
+    with wave.open(WAVE_OUTPUT_FILENAME, 'wb') as wf:
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(p.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b''.join(frames))
+
+    return os.path.join(os.getcwd(), WAVE_OUTPUT_FILENAME)
+
+
+def open_stream(p, callback):
+    return p.open(format=FORMAT,
+           channels=CHANNELS,
+           rate=RATE,
+           input=True,
+           frames_per_buffer=CHUNK,
+           stream_callback=callback)
