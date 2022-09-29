@@ -15,6 +15,7 @@ CHANNELS = 2
 RATE = 44100
 RECORD_SECONDS = 5
 WAVE_OUTPUT_FILENAME = "tmp/output.wav"
+TRANSCRIBE_KEY = keyboard.Key.pause
 
 
 def transcriber():
@@ -33,7 +34,7 @@ def transcriber():
         frames.append(in_data)
         return in_data, pyaudio.paContinue
 
-    listener = KeyStateListener(keyboard.Key.pause)
+    listener = KeyStateListener(TRANSCRIBE_KEY)
     listener.start()
     print("Press and hold the 'PAUSE' key to begin recording")
     print("Release the 'PAUSE' key to end recording")
